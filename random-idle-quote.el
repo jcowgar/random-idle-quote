@@ -1,10 +1,11 @@
-;;; random-idle-quote.el --- display a random quote during idle
+;;; random-idle-quote.el --- Display a random quote during idle
 
-;; Copyright (C) 2004, 2020  Jeremy Cowgar <jeremy@cowgar.com>
+;; Copyright (C) 2004-2020  Jeremy Cowgar <jeremy@cowgar.com>
 
-;; Version: 1.0
 ;; Author: Jeremy Cowgar <jeremy@cowgar.com>
 ;; URL: https://github.com/jcowgar/random-idle-quote
+;; Keywords: lisp, random, quote, learning
+;; Version: 0
 
 ;; This file is not part of GNU Emacs.
 
@@ -25,18 +26,26 @@
 
 ;;; Commentary:
 
-;; Add:
+;; When Emacs goes into idle mode, a random quote will appear in your
+;; echo window.  Use it to help me memorize keyboard shortcuts, to
+;; memorize any random text you may be working on, or fill it with
+;; quotes to brighten your day.
+
+;; Quotes come pre-loaded with tips from the Emacs Wiki Page
+;; http://www.emacswiki.org/cgi-bin/wiki/EmacsNiftyTricks.
+
+;; You can customize the quotes shown by `M-X customize-group RET
+;; random-idle-quotes RET`.
+
+;; To install add:
 ;;
-;;   (require 'random-idle-quote)
-;;   (random-idle-quote)
+;;   (use-package 'random-idle-quote
+;;     :ensure t
+;;     :config
+;;     (random-idle-quote))
 ;;
-;; to your ~/.emacs ... when your emacs goes into idle mode, a quote
-;; will appear in your echo window. I use it to help me remember new
-;; things. The quotes that have come with it are straight from
-;; http://www.emacswiki.org/cgi-bin/wiki/EmacsNiftyTricks
-;;
-;; But feel free to customize the random-idle-quotes to something more
-;; useful to yourself (M-x customize-group RET random-idle-quotes RET).
+;; to your ~/.emacs (or ~/.emacs.d/init.d).  When your Emacs goes into
+;; idle mode, a quote will appear in your echo window.
 
 ;;; Thanks:
 
@@ -47,12 +56,12 @@
 ;; Customization
 
 (defgroup random-idle-quote nil
-  "Options concerning the configuration of random-idle-quote"
+  "Options concerning the configuration of random-idle-quote."
   :group 'random-idle-quote
   :version "1.0")
 
 (defcustom random-idle-quote-delay 10
-  "Number of seconds to display quote after emacs enters idle mode"
+  "Number of seconds to display quote after Emacs enters idle mode."
   :group 'random-idle-quote
   :type 'number)
 
@@ -75,24 +84,33 @@
     "Align lines in a region on a common string with M-x align-regexp."
     "C-u M-! inserts the result of the shell-command directly into the buffer, quite handy for stuff like uptime, uname, etc..."
     "C-u M-| replaces the current region with the output of a shell command which gets the region passed as input. e.g. C-x h C-u M-| uniq RET can be used to apply the uniq command to the current buffer")
-  "List of quotes to show during idle"
+  "List of quotes to show during idle."
   ;;:group 'random-idle-quote
   :type '(repeat string))
 
+(defvar random-idle-quote--timer nil
+  "Internally assigned timer to enable the cancelling of functionality.")
+
 (defun random-idle-quote-get ()
+  "Get a random quote from `random-idle-quotes'."
   (nth (random (length random-idle-quotes)) random-idle-quotes))
 
 (defun random-idle-quote-show ()
+  "Show a random idle quote."
   (interactive)
   (message (format "Quote Time: %s" (random-idle-quote-get))))
 
-(defun random-idle-quote()
-  (interactive)
-  (setq random-idle-quote-timer (run-with-idle-timer random-idle-quote-delay 5 'random-idle-quote-show)))
-
 (defun random-idle-quote-stop()
+  "Stop showing random idle quotes."
   (interactive)
-  (cancel-timer random-idle-quote-timer))
+  (cancel-timer random-idle-quote--timer))
+
+;;;###autoload
+(defun random-idle-quote()
+  "Enable the automatic display of random idle quotes."
+  (interactive)
+  (setq random-idle-quote--timer
+	(run-with-idle-timer random-idle-quote-delay 5 #'random-idle-quote-show)))
 
 (provide 'random-idle-quote)
 
