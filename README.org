@@ -1,0 +1,29 @@
+#+TITLE: Random Idle Quote
+
+When emacs goes into idle mode, a random quote will appear in your
+echo window. I use it to help me memorize keyboard shortcuts I am
+working on in Emacs. You can use it for the same, to memorize any
+random text you may be working on, or fill it with quotes to brighten
+your day.
+
+You can customize the 'quotes' shown by `M-X customize-group RET
+random-idle-quotes RET`.
+
+Quotes come pre-loaded from the Emacs Wiki Page
+http://www.emacswiki.org/cgi-bin/wiki/EmacsNiftyTricks.
+
+* Install
+
+The easiest way is [[https://github.com/jwiegley/use-package][use-package]] by John Wiegley
+
+#+begin_src emacs-lisp
+(use-package random-idle-quote
+  :ensure t
+  :config
+  (random-idle-quote))
+#+end_src
+
+* Contributing
+
+Please feel free to submit a bug report, or better yet a pull request
+at the [[https://github.com/jcowgar/random-idle-quote][random-idle-quote github]] project page.
