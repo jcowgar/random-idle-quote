@@ -96,7 +96,7 @@
 
 (defun random-idle-quote-get ()
   "Get a random quote from `random-idle-quotes'."
-  (seq-random-elt random-idle-quotes))
+  (replace-regexp-in-string "%" "%%" (seq-random-elt random-idle-quotes)))
 
 (defun random-idle-quote-show ()
   "Show a random idle quote."
