@@ -21,7 +21,7 @@ The easiest way is [[https://github.com/jwiegley/use-package][use-package]] by J
 (use-package random-idle-quote
   :ensure t
   :config
-  (random-idle-quote))
+  (random-idle-quote-mode))
 #+end_src
 
 * Contributing

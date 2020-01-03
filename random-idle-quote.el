@@ -43,7 +43,7 @@
 ;;   (use-package 'random-idle-quote
 ;;     :ensure t
 ;;     :config
-;;     (random-idle-quote))
+;;     (random-idle-quote-mode))
 ;;
 ;; to your ~/.emacs (or ~/.emacs.d/init.d).  When your Emacs goes into
 ;; idle mode, a quote will appear in your echo window.
@@ -88,7 +88,7 @@
     "C-u M-! inserts the result of the shell-command directly into the buffer, quite handy for stuff like uptime, uname, etc..."
     "C-u M-| replaces the current region with the output of a shell command which gets the region passed as input. e.g. C-x h C-u M-| uniq RET can be used to apply the uniq command to the current buffer")
   "List of quotes to show during idle."
-  ;;:group 'random-idle-quote
+  :group 'random-idle-quote
   :type '(repeat string))
 
 (defvar random-idle-quote--timer nil
@@ -100,7 +100,6 @@
 
 (defun random-idle-quote-show ()
   "Show a random idle quote."
-  (interactive)
   (message (format "Quote Time: %s" (random-idle-quote-get))))
 
 (defun random-idle-quote-stop()
@@ -109,9 +108,12 @@
   (cancel-timer random-idle-quote--timer))
 
 ;;;###autoload
-(defun random-idle-quote()
-  "Enable the automatic display of random idle quotes."
-  (interactive)
+(define-minor-mode random-idle-quote-mode
+  "Toggle Random Idle Quote mode.
+Receive random quotes when Emacs is idle."
+  :group 'random-idle-quote
+  :lighter " Random Quote"
+  :global t
   (setq random-idle-quote--timer
 	(run-with-idle-timer random-idle-quote-delay 5 #'random-idle-quote-show)))
 
