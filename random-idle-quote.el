@@ -6,6 +6,7 @@
 ;; URL: https://github.com/jcowgar/random-idle-quote
 ;; Keywords: lisp, random, quote, learning
 ;; Version: 0
+;; Package-Requires: ((emacs "26.1"))
 
 ;; This file is not part of GNU Emacs.
 
@@ -53,6 +54,8 @@
 
 ;;; Code:
 
+(require 'seq)
+
 ;; Customization
 
 (defgroup random-idle-quote nil
@@ -93,7 +96,7 @@
 
 (defun random-idle-quote-get ()
   "Get a random quote from `random-idle-quotes'."
-  (nth (random (length random-idle-quotes)) random-idle-quotes))
+  (seq-random-elt random-idle-quotes))
 
 (defun random-idle-quote-show ()
   "Show a random idle quote."
