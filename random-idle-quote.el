@@ -104,7 +104,6 @@
 
 (defun random-idle-quote-stop()
   "Stop showing random idle quotes."
-  (interactive)
   (cancel-timer random-idle-quote--timer))
 
 ;;;###autoload
@@ -114,8 +113,10 @@ Receive random quotes when Emacs is idle."
   :group 'random-idle-quote
   :lighter " Random Quote"
   :global t
-  (setq random-idle-quote--timer
-	(run-with-idle-timer random-idle-quote-delay 5 #'random-idle-quote-show)))
+  (if random-idle-quote-mode
+      (setq random-idle-quote--timer
+	    (run-with-idle-timer random-idle-quote-delay 5 #'random-idle-quote-show))
+    (random-idle-quote-stop)))
 
 (provide 'random-idle-quote)
 
