@@ -33,7 +33,7 @@
 ;; quotes to brighten your day.
 
 ;; Quotes come pre-loaded with tips from the Emacs Wiki Page
-;; http://www.emacswiki.org/cgi-bin/wiki/EmacsNiftyTricks.
+;; https://www.emacswiki.org/cgi-bin/wiki/EmacsNiftyTricks.
 
 ;; You can customize the quotes shown by `M-X customize-group RET
 ;; random-idle-quotes RET`.
@@ -100,7 +100,7 @@
 
 (defun random-idle-quote-show ()
   "Show a random idle quote."
-  (message (format "Quote Time: %s" (random-idle-quote-get))))
+  (message "Quote Time: %s" (random-idle-quote-get)))
 
 (defun random-idle-quote-stop()
   "Stop showing random idle quotes."
